@@ -44,6 +44,11 @@ class Trick
     private $mainImageUrl;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick")
      */
     private $images;
@@ -137,6 +142,18 @@ class Trick
     public function setMainImageUrl(string $mainImageUrl): self
     {
         $this->mainImageUrl = $mainImageUrl;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
