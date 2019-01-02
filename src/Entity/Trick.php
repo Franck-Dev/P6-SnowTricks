@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Trick
 {
@@ -156,6 +158,21 @@ class Trick
         $this->slug = $slug;
 
         return $this;
+    }
+    
+    /**
+     * Initialisation du slug avant un persist ou un update
+     * 
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function initializeSlug()
+    {
+        if(empty($this->slug))
+        {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->name);
+        }
     }
 
     /**
