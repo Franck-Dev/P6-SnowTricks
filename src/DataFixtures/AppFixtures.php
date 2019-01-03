@@ -20,7 +20,7 @@ class AppFixtures extends Fixture
         $users = [];
         $genders = ['male', 'female'];
 
-        // 10 User
+        // 20 User
         for ($i=0; $i<20; $i++)
         {
             $user = new User();
@@ -37,7 +37,7 @@ class AppFixtures extends Fixture
             $manager->persist($user);
             $users[] = $user;
 
-            // 10 Category
+            // 20 Category
             $category = new Category();
             $category->setName($faker->sentence(3));
 

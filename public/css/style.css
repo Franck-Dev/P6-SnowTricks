@@ -1,0 +1,93 @@
+* {
+	box-sizing: border-box;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	background-image: linear-gradient(to bottom right, lightblue, white);
+}
+
+section#tricks {
+	position: relative;
+}
+
+.carousel i {
+	position:absolute;
+	bottom: 10px;
+	right: 10px;
+	color:black;
+	z-index:1;
+}
+
+.category-menu .btn {
+	margin-top: 20px;
+}
+
+.card {
+	padding: 0;
+	margin-top: 20px;
+}
+
+.card:hover {
+	background-color: lightgrey;
+	transform: scale(1.05);
+}
+
+.card a {
+	color:black;
+	text-decoration: none;
+}
+
+.card .card-body
+{
+	overflow: hidden;
+	padding: 10px;
+}
+
+.card .card-body .card-title
+{
+	color: black;
+	margin-bottom: 0;
+}
+
+#loadMoreTricks
+{
+	margin-top: 20px;
+	width: 50%;
+}
+
+#arrow-up
+{
+	position: absolute;
+	bottom: 0;
+	right: 10px;
+}
+
+.fas.fa-arrow-down, .fas.fa-arrow-up
+{
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    border-radius: 10%;
+    width: 50px;
+    text-align: center;
+}
+
+.footer {
+	margin-top: 20px;
+	overflow: hidden;
+	background-color: white;
+}
+
+.footer ul
+{
+	margin-top: 20px;
+}

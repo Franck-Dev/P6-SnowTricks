@@ -1,0 +1,18 @@
+{% for trick in tricks %}
+<div class="col-lg-3 col-sm-4">
+    <div class="card">
+        <a href="#">
+            <img src="{{ trick.mainImageUrl}}" class="card-img-top" alt="{{ trick.name }}">
+            <div class="card-body text-center">
+                <h5 class="card-title">
+                    {{ trick.name }}
+                    <div class="float-right">
+                        <a href="#"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="#"><i class="fas fa-trash-alt"></i></a>
+                    </div>
+                </h5>
+            </div>
+        </a>
+    </div>
+</div>
+{% endfor %}
