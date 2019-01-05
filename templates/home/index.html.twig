@@ -42,7 +42,7 @@
 </div>
 
 <!-- Tricks listing -->
-<section id="tricks">
+<section id="tricks" class="position-relative">
     <div class="category-menu text-center">
         <button type="button" class="btn btn-primary">Straight airs</button>
         <button type="button" class="btn btn-secondary">Grabs</button>
@@ -58,8 +58,8 @@
         {% for trick in tricks %}
         <div class="col-lg-3 col-sm-4">
             <div class="card">
-                <a href="#">
-                    <img src="{{ trick.mainImageUrl}}" class="card-img-top" alt="{{ trick.name }}">
+                <a href="{{ path('trick_details', {'slug': trick.slug}) }}">
+                    <img src="{{ trick.mainImageUrl }}" class="card-img-top" alt="{{ trick.name }}">
                     <div class="card-body text-center">
                         <h5 class="card-title">
                             {{ trick.name }}

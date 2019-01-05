@@ -1,5 +1,10 @@
+/* GENERAL */
 * {
 	box-sizing: border-box;
+}
+
+.container {
+	background-color: white;
 }
 
 a {
@@ -13,11 +18,10 @@ html {
 
 body {
 	background-image: linear-gradient(to bottom right, lightblue, white);
+	color:black;
 }
 
-section#tricks {
-	position: relative;
-}
+/* HOME */
 
 .carousel i {
 	position:absolute;
@@ -32,7 +36,6 @@ section#tricks {
 }
 
 .card {
-	padding: 0;
 	margin-top: 20px;
 }
 
@@ -46,48 +49,90 @@ section#tricks {
 	text-decoration: none;
 }
 
-.card .card-body
-{
-	overflow: hidden;
+.card .card-body {
 	padding: 10px;
 }
 
-.card .card-body .card-title
-{
-	color: black;
+.card .card-body .card-title {
 	margin-bottom: 0;
 }
 
-#loadMoreTricks
-{
+#loadMoreTricks {
 	margin-top: 20px;
 	width: 50%;
 }
 
-#arrow-up
-{
+#arrow-up {
 	position: absolute;
 	bottom: 0;
 	right: 10px;
 }
 
-.fas.fa-arrow-down, .fas.fa-arrow-up
-{
+.fas.fa-arrow-down, .fas.fa-arrow-up {
     background-color: white;
-    color: black;
     border: 1px solid black;
-    border-radius: 10%;
+    border-radius: 10px;
     width: 50px;
     text-align: center;
 }
 
-.footer {
-	margin-top: 20px;
-	overflow: hidden;
+/* TRICK DETAILS */
+
+#trickMainImage .operations {
+	position:absolute;
+	top: 20px;
+	right: 10px;
+	font-size: 2em;
+	border: 2px solid black;
 	background-color: white;
+	padding: 5px 10px;
+	border-radius: 10px;
 }
 
-.footer ul
-{
+#trickTitle {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	background-color: rgba(255, 255, 255, 0.75);;
+	border-radius: 10px;
+	padding: 5px 20px;
+	transform: translate(-50%, -50%);
+}
+
+.trickImage, .trickVideo {
+	padding: 10px;
+}
+
+#trickDescription {
+	padding: 40px 100px;
+	font-size: 20px;
+}
+
+.userImage {
+	text-align: center;
+}
+
+.userImage img {
+	border: 2px solid black;
+	border-radius: 50%;
+}
+
+.comment {
+	width: 55%;
+	margin: 0 auto;
+}
+
+.comment p {
+	border: 1px solid black;
+	padding:5px 15px;
+}
+
+#loadMoreComments {
+	width: 30%;
+}
+
+/* FOOTER */
+
+.footer ul {
 	margin-top: 20px;
 }
