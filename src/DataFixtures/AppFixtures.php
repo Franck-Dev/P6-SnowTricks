@@ -18,6 +18,7 @@ class AppFixtures extends Fixture
         $faker = \Faker\Factory::create('FR-fr');
 
         $users = [];
+        $categories = [];
         $genders = ['male', 'female'];
 
         // 20 User
@@ -36,59 +37,63 @@ class AppFixtures extends Fixture
             
             $manager->persist($user);
             $users[] = $user;
+        }
 
-            // 20 Category
+        // 10 Category
+        for ($h=0; $h<10; $h++)
+        {
             $category = new Category();
-            $category->setName($faker->sentence(3));
+            $category->setName($faker->sentence(2));
 
             $manager->persist($category);
+            $categories[] = $category;
+        }
 
-            // 0 to 6 Trick by User and by Category
-            for ($j=0; $j<mt_rand(0, 6); $j++)
+        // 40 Tricks
+        for ($j=0; $j<40; $j++)
+        {
+            $trick = new Trick();
+            $trick->setName($faker->sentence(3))
+                ->setDescription('<p>' . join('</p><p>', $faker->paragraphs(5)) . '</p>')
+                ->setCreatedAt(new \Datetime)
+                ->setUpdatedAt(new \Datetime)
+                ->setMainImageUrl($faker->imageUrl(1000, 500))
+                ->setUser($faker->randomElement($users))
+                ->setCategory($faker->randomElement($categories));
+
+            $manager->persist($trick);
+
+            // 1 to 4 Image by Trick
+            for ($k=0; $k<mt_rand(1, 4); $k++)
             {
-                $trick = new Trick();
-                $trick->setName($faker->sentence(3))
-                    ->setDescription('<p>' . join('</p><p>', $faker->paragraphs(5)) . '</p>')
-                    ->setCreatedAt(new \Datetime)
-                    ->setUpdatedAt(new \Datetime)
-                    ->setMainImageUrl($faker->imageUrl(1000, 400))
-                    ->setUser($user)
-                    ->setCategory($category);
+                $image = new Image();
+                $image->setUrl($faker->imageUrl(800, 450))
+                      ->setTrick($trick);
 
-                $manager->persist($trick);
-
-                // 1 to 4 Image by Trick
-                for ($k=0; $k<mt_rand(1, 4); $k++)
-                {
-                    $image = new Image();
-                    $image->setUrl($faker->imageUrl(800, 450))
-                        ->setTrick($trick);
-
-                    $manager->persist($image);
-                }
-
-                // 1 to 2 Video by Trick
-                for ($l=0; $l<mt_rand(1, 2); $l++)
-                {
-                    $video = new Video();
-                    $video->setUrl('https://youtu.be/FYQesbQXCac')
-                        ->setTrick($trick);
-                    
-                    $manager->persist($video);
-                }
-
-                // 0 to 10 Comment by Trick
-                for ($m=0; $m<mt_rand(0, 10); $m++)
-                {
-                    $comment = new Comment();
-                    $comment->setContent($faker->sentence(mt_rand(1, 5)))
-                            ->setCreatedAt(new \Datetime)
-                            ->setUser($faker->randomElement($users))
-                            ->setTrick($trick);
-                    
-                    $manager->persist($comment);
-                }                
+                $manager->persist($image);
             }
+
+            // 1 to 2 Video by Trick
+            for ($l=0; $l<mt_rand(1, 2); $l++)
+            {
+                $video = new Video();
+                $video->setUrl('https://youtu.be/FYQesbQXCac')
+                      ->setTrick($trick);
+                
+                $manager->persist($video);
+            }
+
+            // 0 to 30 Comment by Trick
+            for ($m=0; $m<mt_rand(0, 30); $m++)
+            {
+                $comment = new Comment();
+                $comment->setContent($faker->sentence(mt_rand(1, 5)))
+                        ->setCreatedAt(new \Datetime)
+                        ->setUser($faker->randomElement($users))
+                        ->setTrick($trick);
+                
+                $manager->persist($comment);
+            }                
         }
 
         $manager->flush();

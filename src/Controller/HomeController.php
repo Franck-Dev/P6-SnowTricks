@@ -22,6 +22,7 @@ class HomeController extends AbstractController
             'tricks' => $tricks
         ]);
     }
+    
     /**
      * Get the 15 next tricks in the database and create a Twig file with them that will be displayed via Javascript
      * 

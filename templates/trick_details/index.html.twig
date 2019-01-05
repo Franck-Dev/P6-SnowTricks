@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SnowTricks - {{ trick.name }}{% endblock %}
+
+{% block body %}
+    <div id="trickMainImage" class="row position-relative">
+        <img class="w-100" src="{{ trick.mainImageUrl }}" alt="{{ trick.name }}">
+        <div id="trickTitle" class="text-center">
+            <h1>{{ trick.name }}</h1>
+        </div>
+        <div class="operations">
+            <a href="#"><i class="fas fa-pencil-alt"></i></a>
+            <a href="#"><i class="fas fa-trash-alt"></i></a>
+        </div>
+    </div>
+
+    <div class="row" id="trickMedia">
+    {% for image in trick.images %}
+        <div class="trickImage col-3">
+            <img src="{{ image.url }}" width="100%" alt="{{ trick.name }}">
+        </div>
+    {% endfor %}
+    {% for video in trick.videos %}
+        <div class="trickVideo col-3">
+            <iframe src="https://www.youtube.com/embed/FYQesbQXCac" width="265" height="148" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    {% endfor %}
+    </div>
+    
+    <div id="trickDescription" class="row">
+        {{ trick.description | raw }}
+    </div>
+
+    <div class="row text-center" id="infos">
+        <p class="col">Publié le {{ trick.createdAt | date('d/m/Y') }} à {{ trick.createdAt | date('H:i') }}</p>
+        <p class="col">Mis à jour le {{ trick.updatedAt | date('d/m/Y') }} à {{ trick.updatedAt | date('H:i') }}</p>
+        <p class="col">Catégorie : {{ trick.category.name }}</p>
+    </div>
+
+    <hr>
+
+    <form class="text-center">
+        <input type="text" id="leaveComment">
+        <label for="leaveComment">Laisser un commentaire</label>
+    </form>
+
+    <hr>
+    
+    <section id="comments">
+    {% for comment in trick.comments | slice(0,5) %}
+        <div class="comment row">
+            <div class="userImage col-2">
+                <img src="{{ comment.user.imageUrl }}" width="60px" alt="comment.user.username">
+            </div>
+            <p class="col-10">
+                <strong>{{ comment.user.username }}</strong> <small class="text-muted">({{ comment.createdAt | date('d/m/Y à H:i') }}) :</small>
+                <br>{{ comment.content }}
+            </p>
+        </div>
+    {% endfor %}
+    </section>
+    <div class="col-12 text-center">
+        <button id="loadMoreComments" class="btn btn-primary">Voir plus de commentaires</button>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    click = 0;
+    function loadMoreComments(event) {
+        event.preventDefault();
+        click++;
+        var start = 5 * click;
+        const url = "{{ path('loadMoreComments', {'slug': trick.slug} )}}/" + start;
+        console.log(url);
+
+        axios.get(url).then(function(response) {
+            console.log(response);
+            $('#comments').append(response.data);
+        }).catch(function (error) {
+            if (response.status === 403) {
+                window.alert("Vous n'êtes pas autorisé à effectuer cette action !");
+            }
+            else if (response.status === 404) {
+                window.alert("La page appelé n'existe pas");
+            }
+            else {
+                window.alert("Une erreur est survenue !");
+            }
+        });
+    }
+
+    document.getElementById("loadMoreComments").addEventListener("click", loadMoreComments);
+</script>
+{% endblock %}
