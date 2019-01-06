@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SnowTricks - Créer un trick{% endblock %}
+{% block title %}SnowTricks - Editer un trick{% endblock %}
 
 {% form_theme form 'shared/_collection.html.twig' %}
 
 {% block body %}
-    <h1>Créer un nouveau trick</h1>
+    <h1>Modifier le trick : {{ trick.name }}</h1>
     {{ form_start(form) }}
 
     {{ form_widget(form) }}
 
-    <button type="submit" class="btn btn-primary">Créer le nouveau trick</button>
+    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
 
     {{ form_end(form) }}
 {% endblock %}

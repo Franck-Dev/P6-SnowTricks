@@ -48,7 +48,8 @@ class TrickType extends AbstractType
             ->add('mainImageUrl', UrlType::class, $this->getOptions('Image principale', 'Url de l\'image principale'))
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
-                'allow_add' => true
+                'allow_add' => true,
+                'allow_delete' => true
             ])
         ;
     }

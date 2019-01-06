@@ -2,23 +2,22 @@
 
 namespace App\Controller;
 
-use App\Entity\Image;
-use App\Entity\Trick;
 use App\Form\TrickType;
+use App\Repository\TrickRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class TrickCreateController extends AbstractController
+class TrickEditController extends AbstractController
 {
     /**
-     * @Route("/trick/create", name="trick_create")
+     * @Route("/trick/edit/{slug}", name="trick_edit")
      */
-    public function index(Request $request, ObjectManager $manager)
+    public function index(Request $request, TrickRepository $repo, ObjectManager $manager, $slug)
     {
-        $trick = new Trick();
-
+        $trick = $repo->findOneBySlug($slug);
+        
         $form = $this->createForm(TrickType::class, $trick);
 
         $form->handleRequest($request);
@@ -40,7 +39,7 @@ class TrickCreateController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Le trick <strong>' . $trick->getName() . '</strong> a bien été enregistré !'
+                'Le trick <strong>' . $trick->getName() . '</strong> a bien été modifié !'
             );
 
             return $this->redirectToRoute('trick_details', [
@@ -48,8 +47,9 @@ class TrickCreateController extends AbstractController
             ]);
         }
 
-        return $this->render('trick_create/index.html.twig', [
-            'form' => $form->createView()
+        return $this->render('trick_edit/index.html.twig', [
+            'form' => $form->createView(),
+            'trick' => $trick
         ]);
     }
 }
