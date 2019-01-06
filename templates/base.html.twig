@@ -14,78 +14,16 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" type="text/css" href="/css/style.css">
         <link rel="icon" href="/img/SnowTricksFavicon.png" type="image/png" sizes="16x16">
-        {% block stylesheets %}
-        {% endblock %}
+        {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        <!-- Navbar -->
-        <div class="container fixed-top">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light row">
-                <a class="navbar-brand" href="{{ path('home') }}">SnowTricks</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{ path('home') }}">Accueil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Créer un Trick</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Inscription</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Connexion</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Déconnexion</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-	    </div>
+        {% include 'shared/header.html.twig' %}
 
         <div class="container pt-5 pb-5">
             {% block body %}{% endblock %}
         </div>
 
-        <!-- Footer -->
-        <footer class="footer container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
-                    <ul class="list-inline text-center">
-                        <li class="list-inline-item">
-                            <a href="https://twitter.com/SorhaDesu" target="_blank">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="https://www.facebook.com/alex.depraetere.5" target="_blank">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="https://github.com/sorha" target="_blank">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                    <p class="copyright text-muted text-center">Copyright © alexandre-depraetere.com/snowtricks 2018-2019</p>
-                </div>
-            </div>
-	    </footer>
+        {% include 'shared/footer.html.twig' %}
 
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

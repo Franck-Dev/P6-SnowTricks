@@ -6,10 +6,20 @@ use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ *  fields={"name"},
+ *  message="Un trick possède déjà ce nom, merci de le modifier"
+ * )
+ * @UniqueEntity(
+ *  fields={"slug"},
+ *  message="Un trick possède déjà ce slug, merci de le modifier"
+ * )
  */
 class Trick
 {
@@ -22,11 +32,13 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\Length(max=100, maxMessage="Le nom ne doit pas faire plus de 100 caractères")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=20, minMessage="La description doit faire au moins 20 caractères")
      */
     private $description;
 
@@ -42,6 +54,7 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url()
      */
     private $mainImageUrl;
 
@@ -52,6 +65,7 @@ class Trick
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick")
+     * @Assert\Valid()
      */
     private $images;
 

@@ -9,7 +9,7 @@
             <h1>{{ trick.name }}</h1>
         </div>
         <div class="operations">
-            <a href="#"><i class="fas fa-pencil-alt"></i></a>
+            <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i class="fas fa-pencil-alt"></i></a>
             <a href="#"><i class="fas fa-trash-alt"></i></a>
         </div>
     </div>

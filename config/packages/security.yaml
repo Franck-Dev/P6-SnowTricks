@@ -6,8 +6,10 @@ security:
     providers:
         in_memory: { memory: ~ }
         in_database:
-            entity: App\Entity\User
-            property: username
+            entity: 
+                class: App\Entity\User
+                property: username
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
