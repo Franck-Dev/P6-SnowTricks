@@ -13,6 +13,13 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
+    private $encoder;
+
+    public function _construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
     public function load(ObjectManager $manager)
     {
         $faker = \Faker\Factory::create('FR-fr');
@@ -31,7 +38,7 @@ class AppFixtures extends Fixture
 
             $user->setUsername($faker->userName)
                  ->setEmail($faker->safeEmail)
-                 ->setPassword($faker->sha256)
+                 ->setPassword($this->encoder->encodePassword($user, 'password'))
                  ->setCreatedAt($faker->dateTimeBetween('-6 months'))
                  ->setImageUrl($imageUrl);
             
