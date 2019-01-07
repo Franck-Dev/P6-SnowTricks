@@ -11,26 +11,32 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ path('home') }}">Accueil</a>
                 </li>
+                {% if app.user %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('trick_create') }}">Créer un Trick</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Inscription</a>
+                    <a class="nav-link" href="{{ path('account_profile') }}">Mon compte</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Connexion</a>
+                    <a class="nav-link" href="{{ path('account_logout') }}">Déconnexion</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('account_registration') }}">Inscription</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Déconnexion</a>
+                    <a class="nav-link" href="{{ path('account_login') }}">Connexion</a>
                 </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
 </div>
 
-{% for label , message in app.flashes %}
-    <div class="container">
-        <div class="alert alert-{{ label }}">
+{% for label, messages in app.flashes %}
+    <div class="container mt-5">
+        <div class="alert alert-{{ label }} mb-0">
             {% for message in messages %}
                 <p>{{ message | raw }}</p>
             {% endfor %}
