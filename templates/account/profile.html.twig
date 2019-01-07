@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SnowTricks - Modification du profil{% endblock %}
+
+{% block body %}
+    <a href="{{path('account_password_update')}}" class="btn btn-info">Modifier mon mot de passe</a>
+
+    <hr>
+
+    <h1>Modification du profil</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+
+    {{ form_end(form) }}
+{% endblock %}

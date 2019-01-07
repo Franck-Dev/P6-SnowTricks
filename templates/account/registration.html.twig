@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SnowTricks - Inscription{% endblock %}
+
+{% block body %}
+
+<h1>Inscription sur SnowTricks</h1>
+
+{{ form_start(form) }}
+{{ form_widget(form) }}
+<button type="submit" class="btn btn-success">Je m'inscris !</button>
+{{ form_end(form) }}
+
+{% endblock %}

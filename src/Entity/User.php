@@ -6,9 +6,19 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ *  fields={"username"},
+ *  message="Ce nom d'utilisateur est déjà utilisé"
+ * )
+ * @UniqueEntity(
+ *  fields={"email"},
+ *  message="Cet email est déjà utilisé"
+ * )
  */
 class User implements UserInterface
 {
@@ -21,18 +31,27 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Veuillez renseigner un nom d'utilisateur")
+     * @Assert\Length(max=10, maxMessage="Votre nom d'utilisateur ne doit pas dépasser 50 caractères")
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\Email(message="Veuillez renseigner un email valide")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=8, minMessage="Votre mot de passe doit faire au moins 8 caractères !")
      */
     private $password;
+
+    /**
+     * @Assert\EqualTo(propertyPath="password", message="La confirmation et le mot de passe ne correspondent pas !")
+     */
+    public $passwordConfirm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -41,11 +60,13 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url(message="Veuillez renseigner une URL valide d'une image")
      */
     private $imageUrl;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Trick", mappedBy="user", orphanRemoval=true)
+     *
      */
     private $tricks;
 

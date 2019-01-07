@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Trick;
 use App\Form\ImageType;
 use App\Entity\Category;
+use App\Form\ApplicationType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -14,25 +15,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class TrickType extends AbstractType
+class TrickType extends ApplicationType
 {
-    /**
-     * Configure les options d'un champ de formulaire
-     *
-     * @param string $label
-     * @param string $placeholder
-     * @param array $options
-     * @return array
-     */
-    private function getOptions($label, $placeholder, $options = []) {
-        return array_merge ([
-            'label' => $label,
-            'attr' => [
-                'placeholder' => $placeholder
-            ]
-        ], $options);
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
