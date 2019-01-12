@@ -22,9 +22,6 @@ class TrickType extends ApplicationType
         $builder
             ->add('name', TextType::class, $this->getOptions('Nom', 'Nom du trick'))
             ->add('description', TextareaType::class, $this->getOptions('Description', 'Description du trick'))
-            ->add('slug', TextType::class, $this->getOptions('Chaîne URL (Slug)','Adresse web (automatique)', [
-                'required' => false
-            ]))
             ->add('category', EntityType::class, $this->getOptions('Catégorie','Catégorie du trick', [
                 'class' => Category::class,
                 'choice_label' => 'name'

@@ -30,7 +30,7 @@ class TrickCreateController extends AbstractController
                 $image->setTrick($trick);
                 $manager->persist($image);
             }
-
+            
             $trick->setCreatedAt(new \DateTime());
             $trick->setUpdatedAt(new \DateTime());
             $trick->setUser($this->getUser());

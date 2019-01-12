@@ -10,6 +10,7 @@ Création d'un site communautaire de partage de figures de snowboard via le fram
 * Composer 1.8.0
 * Bootstrap 4.2.1
 * jQuery 3.3.1
+* PHPUnit 7.5.1
 
 ## Installation :
 À venir.

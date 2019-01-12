@@ -63,10 +63,12 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">
                             {{ trick.name }}
+                            {% if app.user %}
                             <div class="float-right">
                                 <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i class="fas fa-pencil-alt"></i></a>
                                 <a href="#"><i class="fas fa-trash-alt"></i></a>
                             </div>
+                            {% endif %}
                         </h5>
                     </div>
                 </a>
