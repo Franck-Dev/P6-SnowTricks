@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -72,6 +73,7 @@ class AccountController extends AbstractController
      * Afficher et traiter le formulaire de modification de profil
      * 
      * @Route("/account/profile", name="account_profile")
+     * @IsGranted("ROLE_USER")
      */
     public function profile(Request $request, ObjectManager $manager)
     {
@@ -100,6 +102,7 @@ class AccountController extends AbstractController
      * Permet de modifier le mot de passe
      *
      * @Route("/account/password-update", name="account_password_update")
+     * @IsGranted("ROLE_USER")
      */
     public function passwordUpdate(Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $manager) 
     {
@@ -113,11 +116,8 @@ class AccountController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            // 1. Verifier que le oldPassword est le même que le password de l'User
             if(!password_verify($passwordUpdate->getOldPassword(), $user->getPassword()))
             {
-                // Gérer l'erreur
-                // Demande de l'accès au champs oldPassword
                 $form->get('oldPassword')->addError(new FormError("Le mot de passe que vous avez tapé n'est pas votre mot de passe actuel !"));
             }
             else

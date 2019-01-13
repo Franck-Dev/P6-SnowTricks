@@ -7,12 +7,14 @@ use App\Repository\TrickRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TrickEditController extends AbstractController
 {
     /**
      * @Route("/trick/edit/{slug}", name="trick_edit")
+     * @IsGranted("ROLE_USER")
      */
     public function index(Request $request, TrickRepository $repo, ObjectManager $manager, $slug)
     {
@@ -51,5 +53,24 @@ class TrickEditController extends AbstractController
             'form' => $form->createView(),
             'trick' => $trick
         ]);
+    }
+
+    /**
+     * @Route("/trick/delete/{slug}", name="trick_delete")
+     * @IsGranted("ROLE_USER")
+     */
+    public function delete(TrickRepository $repo, ObjectManager $manager, $slug)
+    {
+        $trick = $repo->findOneBySlug($slug);
+
+        $manager->remove($trick);
+        $manager->flush();
+
+        $this->addflash(
+            'success',
+            "Le trick <strong>{$trick->getName()}</strong> a été supprimé avec succès !"
+        );
+
+        return $this->redirectToRoute('home');
     }
 }
