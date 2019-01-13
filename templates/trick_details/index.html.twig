@@ -41,10 +41,16 @@
 
     <hr>
 
-    <form class="text-center">
-        <input type="text" id="leaveComment">
-        <label for="leaveComment">Laisser un commentaire</label>
-    </form>
+    <div class="text-center">
+    {% if app.user %}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-info">Laisser un commentaire</button>
+        {{ form_end(form) }}
+    {% else %}
+        <h3>Veuillez vous connecter pour laisser un commentaire</h3>
+    {% endif %}
+    </div>
 
     <hr>
     

@@ -31,7 +31,7 @@ class HomeController extends AbstractController
     public function loadMoreTricks(TrickRepository $repo, $start = 15)
     {
         // Get 15 tricks from the start position
-        $tricks = $repo->findBy([], [], 15, $start);
+        $tricks = $repo->findBy([], ['createdAt' => 'DESC'], 15, $start);
 
         return $this->render('home/loadMoreTricks.html.twig', [
             'tricks' => $tricks
