@@ -7,6 +7,7 @@ use App\Form\AccountType;
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
 use App\Form\PasswordUpdateType;
+use App\Repository\UserRepository;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -40,7 +41,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/registration", name="account_registration")
      */
-    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
     {
         $user = new User();
 
@@ -50,15 +51,30 @@ class AccountController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $password = $encoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
-            $user->setCreatedAt(new \DateTime);
+            $user->setPassword($password)
+                 ->setCreatedAt(new \DateTime)
+                 ->setActivated(false)
+                 ->setToken(md5(random_bytes(10)));
 
             $manager->persist($user);
             $manager->flush();
+            
+            $message = (new \Swift_Message('Validation de votre compte SnowTricks'))
+            ->setFrom('noreply@snowtricks.com')
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView('emails/validation.html.twig', [
+                        'user' => $user
+                    ]),
+                    'text/html'
+                )
+            ;
+
+            $mailer->send($message);
 
             $this->addFlash(
                 'success',
-                "Compte crée avec succès ! Vous pouvez maintenant vous connecter à SnowTricks !"
+                "Compte crée avec succès ! Veuillez valider votre compte via le mail qui vous a été envoyé pour pouvoir vous connecter !"
             );
 
             return $this->redirectToRoute('account_login');
@@ -67,6 +83,37 @@ class AccountController extends AbstractController
         return $this->render('account/registration.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * Validation de l'email après une inscription
+     *
+     * @Route("/email-validation/{username}/{token}", name="email_validation")
+     */
+    public function emailValidation(UserRepository $repo, $username, $token, ObjectManager $manager)
+    {
+        $user = $repo->findOneByUsername($username);
+
+        if($token === $user->getToken())
+        {
+            $user->setActivated(true);
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Votre compte a été activé avec succès ! Vous pouvez désormais vous connecter !"
+            );
+        }
+        else
+        {
+            $this->addFlash(
+                'danger',
+                "La validation de votre compte a échoué. Le lien de validation a expiré !"
+            );   
+        }
+
+        return $this->redirectToRoute('account_login'); 
     }
 
     /**
@@ -89,7 +136,7 @@ class AccountController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Les modifications du profil ont été enregistrées avec succès !'
+                'Les modifications du profil ont été enregistrées <a href=""></a>vec succès !'
             );
         }
 
