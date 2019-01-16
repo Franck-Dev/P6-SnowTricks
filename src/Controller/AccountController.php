@@ -6,6 +6,8 @@ use App\Entity\User;
 use App\Form\AccountType;
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
+use App\Form\PasswordResetType;
+use App\Form\PasswordForgotType;
 use App\Form\PasswordUpdateType;
 use App\Repository\UserRepository;
 use Symfony\Component\Form\FormError;
@@ -28,7 +30,7 @@ class AccountController extends AbstractController
         $username = $utils->getLastUsername();
 
         return $this->render('account/login.html.twig', [
-            'hasError' => $error !== null,
+            'error' => $error,
             'username' => $username
         ]);
     }
@@ -94,7 +96,7 @@ class AccountController extends AbstractController
     {
         $user = $repo->findOneByUsername($username);
 
-        if($token === $user->getToken())
+        if($token != null && $token === $user->getToken())
         {
             $user->setActivated(true);
             $manager->persist($user);
@@ -136,7 +138,7 @@ class AccountController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Les modifications du profil ont été enregistrées <a href=""></a>vec succès !'
+                'Les modifications du profil ont été enregistrées avec succès !'
             );
         }
 
@@ -190,4 +192,105 @@ class AccountController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    
+    /**
+     * Demande d'une réinitialisation du mot de passe car oublié par l'utilisateur
+     * 
+     * @Route("/account/password-forgot", name="account_password_forgot")
+     */
+    public function passwordForgot(Request $request, ObjectManager $manager, UserRepository $repo, \Swift_Mailer $mailer)
+    {
+        $form = $this->createForm(PasswordForgotType::class);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) 
+        {
+            $username = $form->getData('username');
+            $user = $repo->findOneByUsername($username);
+
+            if($user !== null)
+            {
+                $user->setToken(md5(random_bytes(10)));
+
+                $manager->persist($user);
+                $manager->flush();
+
+                $message = (new \Swift_Message('SnowTricks - Réinitilisation du mot de passe'))
+                ->setFrom('noreply@snowtricks.com')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView('emails/reset.html.twig', [
+                            'user' => $user
+                        ]),
+                        'text/html'
+                    )
+                ;
+
+                $mailer->send($message);
+
+                $this->addFlash(
+                    'success',
+                    "Un email de réinitilisation de mot de passe a été envoyé sur l'email lié à votre compte !"
+                );
+            }
+            else 
+            {
+                $this->addFlash(
+                    'danger',
+                    "Cet utilisateur n'existe pas !"
+                );
+            }
+        }
+
+        return $this->render('account/password-forgot.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Réinitilisation du mot de passe si le token est correct
+     * 
+     * @Route("/account/password-reset/{username}/{token}", name="account_password_reset")
+     */
+    public function passwordReset(Request $request, UserRepository $repo, UserPasswordEncoderInterface $encoder, ObjectManager $manager, $username, $token)
+    {
+        $user = $repo->findOneByUsername($username);
+
+        $form = $this->createForm(PasswordResetType::class, $user);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) 
+        {
+            if($user->getToken() === $token)
+            {
+                $password = $encoder->encodePassword($user, $user->getPassword());
+                $user->setPassword($password);
+
+                $manager->persist($user);
+                $manager->flush();
+
+                $this->addFlash(
+                    'success',
+                    "Mot de passe modifié avec succès !"
+                );
+
+                return $this->redirectToRoute('account_login');
+            }
+            else 
+            {
+                $this->addFlash(
+                    'danger',
+                    "La modification du mot de passe a échoué ! Le lien de validation a expiré !"
+                );
+            }
+        }
+
+        return $this->render('account/password-reset.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+    
 }

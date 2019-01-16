@@ -32,7 +32,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank(message="Veuillez renseigner un nom d'utilisateur")
-     * @Assert\Length(max=10, maxMessage="Votre nom d'utilisateur ne doit pas dépasser 50 caractères")
+     * @Assert\Length(max=50, maxMessage="Votre nom d'utilisateur ne doit pas dépasser 50 caractères")
      */
     private $username;
 
@@ -66,7 +66,6 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Trick", mappedBy="user", orphanRemoval=true)
-     *
      */
     private $tricks;
 
