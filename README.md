@@ -17,22 +17,26 @@ Création d'un site communautaire de partage de figures de snowboard via le fram
 ```
     git clone https://github.com/sorha/P6-SnowTricks.git
 ```
-2. Configurez vos variables d'environnement tel que la connexion à la base de données ou votre serveur mail SMTP dans le fichier `.env.local` situé à la racine du projet.
+2. Configurez vos variables d'environnement tel que la connexion à la base de données ou votre serveur mail SMTP dans le fichier `.env.local` qui devra être crée à la racine du projet en réalisant une copie du fichier `.env`.
 
-3. Télécharger et installer les dépendances du projet avec Composer :
+3. Télécharger et installer les dépendances back-end du projet avec Composer :
 ```
     composer install
 ```
-4. Créez la base de données si elle n'existe pas déjà, taper la commande ci-dessous en vous plaçant dans le répertoire du projet :
+4. Télécharger et installer les dépendances front-end du projet avec Npm :
+```
+    npm install
+```
+5. Créez la base de données si elle n'existe pas déjà, taper la commande ci-dessous en vous plaçant dans le répertoire du projet :
 ```
     php bin/console doctrine:database:create
 ```
-5. Créez les différentes tables de la base de données en appliquant les migrations :
+6. Créez les différentes tables de la base de données en appliquant les migrations :
 ```
     php bin/console doctrine:migrations:migrate
 ```
-6. (Optionnel) Installer les fixtures pour avoir une démo de données fictives :
+7. (Optionnel) Installer les fixtures pour avoir une démo de données fictives :
 ```
     php bin/console doctrine:fixtures:load
 ```
-7. Félications le projet est installé correctement, vous pouvez désormais commencer à l'utiliser à votre guise !
+8. Félications le projet est installé correctement, vous pouvez désormais commencer à l'utiliser à votre guise !

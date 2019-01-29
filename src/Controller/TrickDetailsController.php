@@ -31,8 +31,6 @@ class TrickDetailsController extends AbstractController
             $comment->setTrick($trick);
             $comment->setUser($this->getUser());
 
-            dump($comment);
-
             $manager->persist($comment);
             $manager->flush();
 

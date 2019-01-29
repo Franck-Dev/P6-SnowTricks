@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -62,6 +63,13 @@ class TrickEditController extends AbstractController
     public function delete(TrickRepository $repo, ObjectManager $manager, $slug)
     {
         $trick = $repo->findOneBySlug($slug);
+
+        $fileSystem = new Filesystem();
+
+        foreach($trick->getImages() as $image)
+        {
+            $fileSystem->remove($image->getPath() . '/' . $image->getName());
+        }
 
         $manager->remove($trick);
         $manager->flush();

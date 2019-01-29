@@ -51,7 +51,7 @@ class User implements UserInterface
     /**
      * @Assert\EqualTo(propertyPath="password", message="La confirmation et le mot de passe ne correspondent pas !")
      */
-    public $passwordConfirm;
+    private $passwordConfirm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -127,6 +127,18 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getPasswordConfirm(): ?string
+    {
+        return $this->passwordConfirm;
+    }
+
+    public function setPasswordConfirm(string $passwordConfirm): self
+    {
+        $this->passwordConfirm = $passwordConfirm;
 
         return $this;
     }

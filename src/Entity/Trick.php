@@ -54,23 +54,17 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Url()
-     */
-    private $mainImageUrl;
-
-    /**
-     * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick", orphanRemoval=true, cascade={"persist", "remove"})
      * @Assert\Valid()
      */
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $videos;
 
@@ -89,6 +83,11 @@ class Trick
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", orphanRemoval=true)
      */
     private $comments;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
+     */
+    private $mainImage;
 
     public function __construct()
     {
@@ -146,18 +145,6 @@ class Trick
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getMainImageUrl(): ?string
-    {
-        return $this->mainImageUrl;
-    }
-
-    public function setMainImageUrl(string $mainImageUrl): self
-    {
-        $this->mainImageUrl = $mainImageUrl;
 
         return $this;
     }
@@ -302,6 +289,18 @@ class Trick
                 $comment->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMainImage(): ?Image
+    {
+        return $this->mainImage;
+    }
+
+    public function setMainImage(Image $mainImage): self
+    {
+        $this->mainImage = $mainImage;
 
         return $this;
     }

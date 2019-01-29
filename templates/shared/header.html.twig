@@ -15,11 +15,25 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('trick_create') }}">Créer un Trick</a>
                 </li>
+                <!-- Remplacé par la dropdown pour le moment
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('account_profile') }}">Mon compte</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('account_logout') }}">Déconnexion</a>
+                </li>
+                -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="accountDropdownLink" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{ app.user.imageUrl }}" class="avatar avatar-mini" alt="Avatar de {{ app.user.username }}">
+                        {{ app.user.username}}
+                    </a>
+
+                    <div class="btn dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownLink">
+                        <a class="dropdown-item" href="{{ path('account_profile') }}">Mon compte</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('account_logout') }}">Déconnexion</a>
+                    </div>
                 </li>
                 {% else %}
                 <li class="nav-item">
@@ -33,13 +47,3 @@
         </div>
     </nav>
 </div>
-
-{% for label, messages in app.flashes %}
-    <div class="container mt-5">
-        <div class="alert alert-{{ label }} mb-0">
-            {% for message in messages %}
-                <p>{{ message | raw }}</p>
-            {% endfor %}
-        </div>
-    </div>
-{% endfor %}

@@ -3,8 +3,8 @@
 {% block title %}SnowTricks - {{ trick.name }}{% endblock %}
 
 {% block body %}
-    <div id="trickMainImage" class="row position-relative">
-        <img class="w-100" src="{{ trick.mainImageUrl }}" alt="{{ trick.name }}">
+    <div id="trickMainImage" class="position-relative">
+        <img class="w-100" src="{{ '/' ~ trick.mainImage.path ~ '/' ~ trick.mainImage.name }}" alt="{{ trick.mainImage.caption }}">
         <div id="trickTitle" class="text-center">
             <h1>{{ trick.name }}</h1>
         </div>
@@ -19,18 +19,32 @@
     <div class="row" id="trickMedia">
     {% for image in trick.images %}
         <div class="trickImage col-3">
-            <img src="{{ image.url }}" width="100%" alt="{{ trick.name }}">
+            <img src="{{ '/' ~ image.path ~ '/' ~ image.name }}" width="100%" alt="{{ image.caption }}">
         </div>
     {% endfor %}
     {% for video in trick.videos %}
         <div class="trickVideo col-3">
-            <iframe src="https://www.youtube.com/embed/FYQesbQXCac" width="265" height="148" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe id="video{{ video.id }}" width="265" height="148" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
+        <script>
+            var url = "{{ video.url }}";
+            var id = url.split("?v=")[1];
+            var embedlink = "http://www.youtube.com/embed/" + id;
+            var iframe = document.getElementById("video{{ video.id }}");
+            iframe.src = embedlink;
+        </script>
     {% endfor %}
     </div>
+
+    <div class="row text-center" id="seeMedia">
+        <button class="btn btn-info col-10 mt-3">Voir les médias</button>
+    </div>
     
-    <div id="trickDescription" class="row">
-        {{ trick.description | raw }}
+    <div class="row">
+        <div id="trickDescription" class="col-11 mx-auto my-2 bg-light">
+            <h3>Description :</h3>
+            {{ trick.description | raw }}
+        </div>
     </div>
 
     <div class="row text-center" id="infos">
@@ -41,12 +55,14 @@
 
     <hr>
 
-    <div class="text-center">
+    <div class="row text-center">
     {% if app.user %}
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit" class="btn btn-info">Laisser un commentaire</button>
-        {{ form_end(form) }}
+        <div class="col-sm-10 col-md-8 mx-auto">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-success col-sm-s8 mx-auto">Laisser un commentaire</button>
+            {{ form_end(form) }}
+        </div>
     {% else %}
         <h3>Veuillez vous connecter pour laisser un commentaire</h3>
     {% endif %}
@@ -56,19 +72,27 @@
     
     <section id="comments">
     {% for comment in trick.comments | slice(0,5) %}
-        <div class="comment row">
-            <div class="userImage col-2">
-                <img src="{{ comment.user.imageUrl }}" width="60px" alt="comment.user.username">
+        <div class="comment row mx-auto">
+            <div class="col-md-10 col-12 mx-auto row">
+                <div class="userImage col-lg-2 col-4">
+                    <img src="{{ comment.user.imageUrl }}" class="avatar avatar-medium" alt="comment.user.username">
+                </div>
+                <p class="col-lg-10 col-8 bg-light">
+                    <strong>{{ comment.user.username }}</strong> <small class="text-muted">({{ comment.createdAt | date('d/m/Y à H:i') }}) :</small>
+                    <br>{{ comment.content }}
+                </p>
             </div>
-            <p class="col-10">
-                <strong>{{ comment.user.username }}</strong> <small class="text-muted">({{ comment.createdAt | date('d/m/Y à H:i') }}) :</small>
-                <br>{{ comment.content }}
-            </p>
         </div>
     {% endfor %}
     </section>
-    <div class="col-12 text-center">
-        <button id="loadMoreComments" class="btn btn-primary">Voir plus de commentaires</button>
+    <div class="row text-center">
+        <button id="loadMoreComments" class="btn btn-primary col-md-6 col-8 mx-auto">Voir plus de commentaires</button>
+    </div>
+
+    <!-- The Modal/Lightbox -->
+    <div id="imageModal" class="modal">
+        <span class="close cursor"><i class="fas fa-times fa-2x"></i></span>
+        <img src="#" alt="">
     </div>
 {% endblock %}
 
@@ -100,5 +124,22 @@
     }
 
     document.getElementById("loadMoreComments").addEventListener("click", loadMoreComments);
+</script>
+<script>
+    $('.trickImage img').click(function() {
+        $('.modal img').attr("src", this.src);
+        $('.modal img').attr("alt", this.alt);
+        $('#imageModal').show();
+    });
+
+    $('.close.cursor').click(function() {
+        $('#imageModal').hide();
+    });
+</script>
+<script>
+   $('#seeMedia').click(function() { 
+       $('#trickMedia').show();
+       $('#seeMedia').hide();
+   });
 </script>
 {% endblock %}

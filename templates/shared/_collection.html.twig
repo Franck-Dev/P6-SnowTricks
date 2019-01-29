@@ -3,10 +3,10 @@
 
     {{ form_widget(form) }}
 
-    <input type="hidden" id="widgets-counter" value="0">
+    <input type="hidden" id="widgets-counter-image" value="0">
 
     <div class="form-group">
-        <button type="button" id="add-image" class="btn btn-primary">Ajouter une image</button>
+        <button type="button" id="add-image" class="btn btn-info">Ajouter une image</button>
     </div>
 {% endblock %}
 
@@ -17,8 +17,40 @@
 {% block _trick_images_entry_widget %}
     <div class="form-group" id="block_{{ id }}">
         <div class="row">
+            <div class="col-md-5">
+                {{ form_widget(form.file)}}
+            </div>
+            <div class="col-md-5">
+                {{ form_widget(form.caption)}}
+            </div>
+            <div class="col-md-2">
+                <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger col-sm-12">X</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _trick_videos_widget %}
+    <p>Ajouter des vidéos pour illustrer votre trick !</p>
+
+    {{ form_widget(form) }}
+
+    <input type="hidden" id="widgets-counter-video" value="0">
+
+    <div class="form-group">
+        <button type="button" id="add-video" class="btn btn-info">Ajouter une vidéo</button>
+    </div>
+{% endblock %}
+
+{% block _trick_videos_entry_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block _trick_videos_entry_widget %}
+    <div class="form-group" id="block_{{ id }}">
+        <div class="row">
             <div class="col-10">
-                {{ form_widget(form.url)}}
+                {{ form_widget(form.url) }}
             </div>
             <div class="col-2">
                 <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger">X</button>
