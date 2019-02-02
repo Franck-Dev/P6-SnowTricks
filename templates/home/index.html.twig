@@ -50,7 +50,7 @@
         <div class="col-lg-3 col-md-4 col-sm-6">
             <div class="card">
                 <a href="{{ path('trick_details', {'slug': trick.slug}) }}">
-                    <img src="{{ trick.mainImage.path ~ '/' ~ trick.mainImage.name }}" class="card-img-top" alt="{{ trick.mainImage.caption }}">
+                    <img src="{{ trick.mainImage.pathThumbnail ~ '/' ~ trick.mainImage.name }}" class="card-img-top" alt="{{ trick.mainImage.caption }}">
                     <div class="card-body text-center">
                         <h5 class="card-title">
                             {{ trick.name }}

@@ -40,7 +40,7 @@ class Image
     private $path;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\Image
      */
     private $file;
 
@@ -82,6 +82,16 @@ class Image
     public function getPath(): ?string
     {
         return $this->path;
+    }
+
+    public function getPathCropped(): ?string
+    {
+        return $this->path . '/cropped';
+    }
+
+    public function getPathThumbnail(): ?string
+    {
+        return $this->path . '/thumbnail';
     }
 
     public function setPath(string $path): self
