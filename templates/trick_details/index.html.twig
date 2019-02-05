@@ -4,7 +4,7 @@
 
 {% block body %}
     <div id="trickMainImage" class="position-relative">
-        <img class="w-100" src="{{ '/' ~ trick.mainImage.pathCropped ~ '/' ~ trick.mainImage.name }}" alt="{{ trick.mainImage.caption }}">
+        <img class="w-100" src="{{ asset(trick.mainImage.pathCropped ~ '/' ~ trick.mainImage.name) }}" alt="{{ trick.mainImage.caption }}">
         <div id="trickTitle" class="text-center">
             <h1>{{ trick.name }}</h1>
         </div>
@@ -19,7 +19,7 @@
     <div class="row" id="trickMedia">
     {% for image in trick.images %}
         <div class="trickImage col-3">
-            <img src="{{ '/' ~ image.pathThumbnail ~ '/' ~ image.name }}" width="100%" alt="{{ image.caption }}">
+            <img src="{{ asset(image.pathThumbnail ~ '/' ~ image.name) }}" width="100%" alt="{{ image.caption }}">
         </div>
     {% endfor %}
     {% for video in trick.videos %}
@@ -47,10 +47,12 @@
         </div>
     </div>
 
-    <div class="row text-center" id="infos">
-        <p class="col">Publié le {{ trick.createdAt | date('d/m/Y') }} à {{ trick.createdAt | date('H:i') }} par {{ trick.user.username }}</p>
-        <p class="col">Mis à jour le {{ trick.updatedAt | date('d/m/Y') }} à {{ trick.updatedAt | date('H:i') }}</p>
-        <p class="col">Catégorie : {{ trick.category.name }}</p>
+    <div class="row">
+        <div class="row text-center col-11 mx-auto my-2 bg-light" id="infos">
+            <p class="col">Publié le {{ trick.createdAt | date('d/m/Y') }} à {{ trick.createdAt | date('H:i') }} par {{ trick.user.username }}</p>
+            <p class="col">Mis à jour le {{ trick.updatedAt | date('d/m/Y') }} à {{ trick.updatedAt | date('H:i') }}</p>
+            <p class="col">Catégorie : {{ trick.category.name }}</p>
+        </div>
     </div>
 
     <hr>
@@ -97,6 +99,7 @@
 {% endblock %}
 
 {% block javascripts %}
+{{ parent() }}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     click = 0;
@@ -105,10 +108,8 @@
         click++;
         var start = 5 * click;
         const url = "{{ path('loadMoreComments', {'slug': trick.slug} )}}/" + start;
-        console.log(url);
 
         axios.get(url).then(function(response) {
-            console.log(response);
             $('#comments').append(response.data);
         }).catch(function (error) {
             if (response.status === 403) {

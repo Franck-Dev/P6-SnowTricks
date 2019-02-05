@@ -39,5 +39,6 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="/js/trick.js"></script>
+    {{ parent() }}
+    {{ encore_entry_script_tags('trick-form') }}
 {% endblock %}

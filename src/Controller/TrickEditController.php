@@ -69,6 +69,8 @@ class TrickEditController extends AbstractController
         foreach($trick->getImages() as $image)
         {
             $fileSystem->remove($image->getPath() . '/' . $image->getName());
+            $fileSystem->remove($image->getPath() . '/cropped/' . $image->getName());
+            $fileSystem->remove($image->getPath() . '/thumbnail/' . $image->getName());
         }
 
         $manager->remove($trick);

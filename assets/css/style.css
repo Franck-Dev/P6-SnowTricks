@@ -119,6 +119,15 @@ body {
 	width: 30%;
 }
 
+#infos {
+	padding:10px 10px;
+	border:1px solid black;
+}
+
+#infos p {
+	margin:0;
+}
+
 /* FOOTER */
 
 .footer ul {

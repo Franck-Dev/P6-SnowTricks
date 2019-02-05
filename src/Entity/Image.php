@@ -40,7 +40,19 @@ class Image
     private $path;
 
     /**
-     * @Assert\Image
+     * @Assert\Image(
+     *  mimeTypes= {"image/jpeg", "image/jpg", "image/png"},
+     *  mimeTypesMessage = "Le fichier ne possède pas une extension valide ! Veuillez insérer une image en .jpg, .jpeg ou .png",
+     *  minWidth = 500,
+     *  minWidthMessage = "La largeur de cette image est trop petit",
+     *  maxWidth = 3000,
+     *  maxWidthMessage = "La largeur de cette image est trop grande",
+     *  minHeight = 282,
+     *  minHeightMessage = "La hauteur de cette image est trop petite",
+     *  maxHeight = 1687,
+     *  maxHeightMessage ="La hauteur de cette image est trop grande",
+
+     * )
      */
     private $file;
 
