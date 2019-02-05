@@ -1,4 +1,7 @@
 # P6-SnowTricks
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/59ffab92a1794ff9858cafce05f91f6b)](https://app.codacy.com/app/sorha/P6-SnowTricks?utm_source=github.com&utm_medium=referral&utm_content=sorha/P6-SnowTricks&utm_campaign=Badge_Grade_Dashboard)
+
 Création d'un site communautaire de partage de figures de snowboard via le framework Symfony.
 
 ## Environnement du développement
