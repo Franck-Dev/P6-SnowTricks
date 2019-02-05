@@ -80,7 +80,7 @@
 {{ parent() }}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-    $('#arrow-up').hide();
+    $("#arrow-up").hide();
     click = 0;
     function loadMoreTricks(event) {
         event.preventDefault();
@@ -90,8 +90,8 @@
 
         axios.get(url).then(function(response) {
             console.log(response);
-            $('#trickList').append(response.data);
-            $('#arrow-up').show();
+            $("#trickList").append(response.data);
+            $("#arrow-up").show();
         }).catch(function (error) {
             if (response.status === 403) {
                 window.alert("Vous n'êtes pas autorisé à effectuer cette action !");

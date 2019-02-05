@@ -1,7 +1,7 @@
 # P6-SnowTricks
 Création d'un site communautaire de partage de figures de snowboard via le framework Symfony.
 
-## Environnement du développement :
+## Environnement du développement
 * WampServer 3.1.6
 * Apache 2.4.37
 * PHP 7.3.0
@@ -12,7 +12,7 @@ Création d'un site communautaire de partage de figures de snowboard via le fram
 * jQuery 3.3.1
 * PHPUnit 7.5.1
 
-## Installation :
+## Installation
 1. Clonez ou téléchargez le repository GitHub dans le dossier voulu :
 ```
     git clone https://github.com/sorha/P6-SnowTricks.git
