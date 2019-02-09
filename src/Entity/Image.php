@@ -51,8 +51,7 @@ class Image
      *  minHeightMessage = "La hauteur de cette image est trop petite",
      *  maxHeight = 1687,
      *  maxHeightMessage ="La hauteur de cette image est trop grande",
-
-     * )
+     *  )
      */
     private $file;
 

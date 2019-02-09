@@ -66,7 +66,9 @@
             {{ form_end(form) }}
         </div>
     {% else %}
-        <h3>Veuillez vous connecter pour laisser un commentaire</h3>
+        <div class="col-sm-10 col-md-8 mx-auto">
+            <h3>Veuillez vous connecter pour laisser un commentaire</h3>
+        </div>
     {% endif %}
     </div>
 
@@ -77,7 +79,7 @@
         <div class="comment row mx-auto">
             <div class="col-md-10 col-12 mx-auto row">
                 <div class="userImage col-lg-2 col-4">
-                    <img src="{{ comment.user.imageUrl }}" class="avatar avatar-medium" alt="comment.user.username">
+                    <img src="{{ asset(comment.user.imagePath ~ '/' ~ comment.user.imageName) }}" class="avatar avatar-medium" alt="comment.user.username">
                 </div>
                 <p class="col-lg-10 col-8 bg-light">
                     <strong>{{ comment.user.username }}</strong> <small class="text-muted">({{ comment.createdAt | date('d/m/Y à H:i') }}) :</small>
@@ -128,8 +130,8 @@
 </script>
 <script>
     $(".trickImage img").click(function() {
-        // Enelever le /thumbnail/ via manipulation de chaine de caractère
-        $(".modal img").attr("src", this.src);
+        var originalSrc = this.src.replace("thumbnail/", "");
+        $(".modal img").attr("src", originalSrc);
         $(".modal img").attr("alt", this.alt);
         $("#imageModal").show();
     });
@@ -137,11 +139,10 @@
     $(".close.cursor").click(function() {
         $("#imageModal").hide();
     });
-</script>
-<script>
-   $("#seeMedia").click(function() { 
-       $("#trickMedia").show();
-       $("#seeMedia").hide();
-   });
+
+    $("#seeMedia").click(function() { 
+        $("#trickMedia").show();
+        $("#seeMedia").hide();
+    });
 </script>
 {% endblock %}

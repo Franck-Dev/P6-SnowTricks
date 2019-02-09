@@ -5,8 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -59,12 +60,6 @@ class User implements UserInterface
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Url(message="Veuillez renseigner une URL valide d'une image")
-     */
-    private $imageUrl;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Trick", mappedBy="user", orphanRemoval=true)
      */
     private $tricks;
@@ -83,6 +78,36 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $activated;
+
+    /**
+     * @Assert\Image(
+     *  mimeTypes= {"image/jpeg", "image/jpg", "image/png"},
+     *  mimeTypesMessage = "Le fichier ne possède pas une extension valide ! Veuillez insérer une image en .jpg, .jpeg ou .png",
+     *  minWidth = 24,
+     *  minWidthMessage = "La largeur de cette image est trop petite",
+     *  maxWidth = 2000,
+     *  maxWidthMessage = "La largeur de cette image est trop grande",
+     *  minHeight = 24,
+     *  minHeightMessage = "La hauteur de cette image est trop petite",
+     *  maxHeight = 2000,
+     *  maxHeightMessage ="La hauteur de cette image est trop grande",
+     *  minRatio = 1,
+     *  minRatioMessage = "L'image doit être carré c-à-d un ratio de 1:1",
+     *  maxRatio = 1,
+     *  maxRatioMessage = "L'image doit être carré c-à-d un ratio de 1:1"
+     *  )
+     */
+    private $file;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imagePath;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imageName;
 
     public function __construct()
     {
@@ -151,18 +176,6 @@ class User implements UserInterface
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getImageUrl(): ?string
-    {
-        return $this->imageUrl;
-    }
-
-    public function setImageUrl(string $imageUrl): self
-    {
-        $this->imageUrl = $imageUrl;
 
         return $this;
     }
@@ -257,6 +270,42 @@ class User implements UserInterface
     public function setActivated(bool $activated): self
     {
         $this->activated = $activated;
+
+        return $this;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile(UploadedFile $file): self
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    public function getImagePath(): ?string
+    {
+        return $this->imagePath;
+    }
+
+    public function setImagePath(string $imagePath): self
+    {
+        $this->imagePath = $imagePath;
+
+        return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(string $imageName): self
+    {
+        $this->imageName = $imageName;
 
         return $this;
     }

@@ -16,30 +16,10 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AccountController extends AbstractController
 {
-    /**
-     * @Route("/login", name="account_login")
-     */
-    public function login(AuthenticationUtils $utils)
-    {
-        $error = $utils->getLastAuthenticationError();
-        $username = $utils->getLastUsername();
-
-        return $this->render('account/login.html.twig', [
-            'error' => $error,
-            'username' => $username
-        ]);
-    }
-
-    /**
-     * @Route("/logout", name="account_logout")
-     */
-    public function logout() {}
-
     /**
      * @Route("/registration", name="account_registration")
      */
@@ -52,6 +32,16 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $file = $user->getFile();
+            // Créer un nom unique pour le fichier
+            $name = md5(uniqid()) . '.' . $file->guessExtension();
+            // Déplace le fichier
+            $path = 'img/users';
+            $file->move($path, $name);
+            // Donner le path et le nom au fichier dans la base de données
+            $user->setImagePath($path);
+            $user->setImageName($name);
+
             $password = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password)
                  ->setCreatedAt(new \DateTime)
@@ -133,6 +123,17 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $file = $user->getFile();
+            // Créer un nom unique pour le fichier
+            $name = md5(uniqid()) . '.' . $file->guessExtension();
+            // Déplace le fichier
+            $path = 'img/users';
+            $file->move($path, $name);
+            
+            // Donner le path et le nom au fichier dans la base de données
+            $user->setImagePath($path);
+            $user->setImageName($name);
+
             $manager->persist($user);
             $manager->flush();
 

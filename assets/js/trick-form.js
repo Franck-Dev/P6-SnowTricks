@@ -24,6 +24,9 @@ $("#add-image").click(function(){
     // Injection du code du prototype au sein de la div
     $("#trick_images").append(tmpl);
 
+    // On gére le "placehold" de fichier lorsqu'un fichier est uploadé
+    bsCustomFileInput.init();
+
     $("#widgets-counter-image").val(index + 1);
 
     // Gestion du bouton Supprimer

@@ -4,9 +4,20 @@ namespace Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class TrickCreateControllerTest extends WebTestCase
+class TrickControllerTest extends WebTestCase
 {
-    public function testindex()
+    public function testdetails()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/trick/details/commodi-rerum-earum');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        // Should show the trick main image
+        $this->assertSame(1, $crawler->filter('div#trickMainImage')->count());
+    }
+
+    public function testcreate()
     {
         $client = static::createClient();
 

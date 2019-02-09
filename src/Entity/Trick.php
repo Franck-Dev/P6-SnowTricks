@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * )
  * @UniqueEntity(
  *  fields={"slug"},
- *  message="Un trick possède déjà ce slug, merci de le modifier"
+ *  message="Un trick possède déjà ce slug"
  * )
  */
 class Trick

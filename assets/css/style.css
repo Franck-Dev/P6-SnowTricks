@@ -191,6 +191,11 @@ body {
 	max-height: 24px;
 }
 
+/* CUSTOM-FILE-INPUT */
+.custom-file-input ~ .custom-file-label::after {
+    content: "Choisir un fichier";
+}
+
 /* MEDIA QUERIES */
 @media (max-width: 575px) { 
 	#trickMedia {
