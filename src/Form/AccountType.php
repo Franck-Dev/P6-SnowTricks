@@ -17,7 +17,7 @@ class AccountType extends ApplicationType
         $builder
             ->add('username', TextType::class, $this->getOptions("Nom d'utilisateur", "Votre nom d'utilisateur"))
             ->add('email', EmailType::class, $this->getOptions("Email", "Votre adresse email"))
-            ->add('file', FileType::class, $this->getOptions("Photo de profil", "Photo de profil"))
+            //->add('file', FileType::class, $this->getOptions("Photo de profil", "Photo de profil"))
         ;
     }
 

@@ -3,7 +3,7 @@
 {% block title %}SnowTricks - {{ trick.name }}{% endblock %}
 
 {% block body %}
-    <div id="trickMainImage" class="position-relative">
+    <div id="trickMainImage" class="position-relative border border-dark">
         <img class="w-100" src="{{ asset(trick.mainImage.pathCropped ~ '/' ~ trick.mainImage.name) }}" alt="{{ trick.mainImage.caption }}">
         <div id="trickTitle" class="text-center">
             <h1>{{ trick.name }}</h1>
@@ -18,20 +18,25 @@
 
     <div class="row" id="trickMedia">
     {% for image in trick.images %}
-        <div class="trickImage col-3">
+        <div class="trickImage mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-3 border border-dark">
             <img src="{{ asset(image.pathThumbnail ~ '/' ~ image.name) }}" width="100%" alt="{{ image.caption }}">
         </div>
     {% endfor %}
     {% for video in trick.videos %}
-        <div class="trickVideo col-3">
-            <iframe id="video{{ video.id }}" width="265" height="148" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="trickVideo col-sm-6 col-md-4 col-lg-4 col-xl-3 border border-dark">
+            <iframe id="video{{ video.id }}" width="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
         <script>
+            var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
             var url = "{{ video.url }}";
-            var id = url.split("?v=")[1];
-            var embedlink = "http://www.youtube.com/embed/" + id;
-            var iframe = document.getElementById("video{{ video.id }}");
-            iframe.src = embedlink;
+            var match = url.match(regExp);
+            if (match && match[2].length == 11) 
+            {
+                var id = match[2];
+                var embedlink = "http://www.youtube.com/embed/" + id;
+                var iframe = document.getElementById("video{{ video.id }}");
+                iframe.src = embedlink;
+            }
         </script>
     {% endfor %}
     </div>
@@ -41,7 +46,7 @@
     </div>
     
     <div class="row">
-        <div id="trickDescription" class="col-11 mx-auto my-2 bg-light">
+        <div id="trickDescription" class="col-11 mx-auto mt-4 mb-1 bg-light">
             <h3>Description :</h3>
             {{ trick.description | raw }}
         </div>

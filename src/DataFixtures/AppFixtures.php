@@ -28,6 +28,8 @@ class AppFixtures extends Fixture
         $users = [];
         $categories = [];
         $genders = ['male', 'female'];
+        $categoriesDemoName = ['Grabs', 'Rotations', 'Flips', 'Rotations désaxées', 'Slides', 'One foot', 'Old school'];
+        $tricksDemoName = ['Mute', 'Indy', '360', '720', 'Backflip', 'Misty', 'Tail slide', 'Method air', 'Backside air'];
 
         // 20 User
         for ($i=0; $i<20; $i++)
@@ -35,57 +37,65 @@ class AppFixtures extends Fixture
             $user = new User();
 
             $gender = $faker->randomElement($genders);
-            $imageUrl = 'https://randomuser.me/api/portraits/' . ($gender == 'male' ? 'men/' : 'women/') . $faker->numberBetween(1,99) . '.jpg';
 
             $user->setUsername($faker->userName)
                  ->setEmail($faker->safeEmail)
                  ->setPassword($this->encoder->encodePassword($user, 'password'))
                  ->setCreatedAt($faker->dateTimeBetween('-6 months'))
-                 ->setImageUrl($imageUrl);
-            
+                 ->setActivated(true)
+                 ->setImagePath('https://randomuser.me')
+                 ->setImageName('api/portraits/' . ($gender == 'male' ? 'men/' : 'women/') . $faker->numberBetween(1,99) . '.jpg')
+                 ->setToken(md5(random_bytes(10)));
             $manager->persist($user);
             $users[] = $user;
         }
 
-        // 10 Category
-        for ($h=0; $h<10; $h++)
+        // 7 Category
+        foreach ($categoriesDemoName as $categoryName)
         {
             $category = new Category();
-            $category->setName($faker->sentence(2));
+            $category->setName($categoryName);
 
             $manager->persist($category);
             $categories[] = $category;
         }
 
-        // 40 Tricks
-        for ($j=0; $j<40; $j++)
+        // 9 Tricks
+        foreach ($tricksDemoName as $trickName)
         {
             $trick = new Trick();
-            $trick->setName($faker->sentence(3))
-                ->setDescription('<p>' . join('</p><p>', $faker->paragraphs(5)) . '</p>')
+            $trick->setName($trickName)
+                ->setDescription($faker->paragraph(5))
                 ->setCreatedAt(new \Datetime)
                 ->setUpdatedAt(new \Datetime)
-                ->setMainImageUrl($faker->imageUrl(1000, 500))
                 ->setUser($faker->randomElement($users))
                 ->setCategory($faker->randomElement($categories));
 
-            $manager->persist($trick);
-
-            // 1 to 4 Image by Trick
-            for ($k=0; $k<mt_rand(1, 4); $k++)
+            // 3 Image by Trick
+            for ($k=1; $k<4; $k++)
             {
                 $image = new Image();
-                $image->setUrl($faker->imageUrl(800, 450))
+                $image->setPath('img/tricks')
+                      ->setName($trick->getName() . ' ' . $k . '.jpg')
+                      ->setCaption('Image du trick ' . $trick->getName())
                       ->setTrick($trick);
-
+                
                 $manager->persist($image);
+                
+                if($k === 3)
+                {
+                    // Last Image become the main one
+                    $trick->setMainImage($image);
+                    $manager->persist($trick);
+                }
+
             }
 
             // 1 to 2 Video by Trick
             for ($l=0; $l<mt_rand(1, 2); $l++)
             {
                 $video = new Video();
-                $video->setUrl('https://youtu.be/FYQesbQXCac')
+                $video->setUrl('https://www.youtube.com/watch?v=tHHxTHZwFUw')
                       ->setTrick($trick);
                 
                 $manager->persist($video);

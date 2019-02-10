@@ -98,12 +98,22 @@ body {
 }
 
 .trickImage, .trickVideo {
-	padding: 10px;
+	padding: 0px;
+	background-color: black;
+}
+
+.trickImage:hover, .trickVideo:hover, .comment:hover {
+	transform: scale(1.05);
+}
+
+.trickImage:hover, .trickVideo:hover {
+	padding: 0px;
+	background-color: black;
 }
 
 #trickDescription {
 	padding: 20px 20px;
-	border:1px solid black;
+	border: 1px solid black;
 }
 
 .userImage {

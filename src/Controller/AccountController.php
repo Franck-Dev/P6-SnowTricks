@@ -123,16 +123,16 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $file = $user->getFile();
+            //$file = $user->getFile();
             // Créer un nom unique pour le fichier
-            $name = md5(uniqid()) . '.' . $file->guessExtension();
+           // $name = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
             // Déplace le fichier
-            $path = 'img/users';
-            $file->move($path, $name);
+            //$path = 'img/users';
+            //$file->move($path, $name);
             
             // Donner le path et le nom au fichier dans la base de données
-            $user->setImagePath($path);
-            $user->setImageName($name);
+            //$user->setImagePath($path);
+            //$user->setImageName($name);
 
             $manager->persist($user);
             $manager->flush();
