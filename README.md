@@ -30,16 +30,20 @@ Création d'un site communautaire de partage de figures de snowboard via le fram
 ```
     npm install
 ```
-5. Créez la base de données si elle n'existe pas déjà, taper la commande ci-dessous en vous plaçant dans le répertoire du projet :
+5. Créer un build via Webpack Encore à l'aide de la commande :
+```
+    npm run build
+```
+6. Créez la base de données si elle n'existe pas déjà, taper la commande ci-dessous en vous plaçant dans le répertoire du projet :
 ```
     php bin/console doctrine:database:create
 ```
-6. Créez les différentes tables de la base de données en appliquant les migrations :
+7. Créez les différentes tables de la base de données en appliquant les migrations :
 ```
     php bin/console doctrine:migrations:migrate
 ```
-7. (Optionnel) Installer les fixtures pour avoir une démo de données fictives :
+8. (Optionnel) Installer les fixtures pour avoir une démo de données fictives :
 ```
     php bin/console doctrine:fixtures:load
 ```
-8. Félications le projet est installé correctement, vous pouvez désormais commencer à l'utiliser à votre guise !
+9. Félications le projet est installé correctement, vous pouvez désormais commencer à l'utiliser à votre guise !
