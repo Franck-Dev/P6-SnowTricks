@@ -20,17 +20,17 @@ Création d'un site communautaire de partage de figures de snowboard via le fram
 ```
     git clone https://github.com/sorha/P6-SnowTricks.git
 ```
-2. Configurez vos variables d'environnement tel que la connexion à la base de données ou votre serveur mail SMTP dans le fichier `.env.local` qui devra être crée à la racine du projet en réalisant une copie du fichier `.env`.
+2. Configurez vos variables d'environnement tel que la connexion à la base de données ou votre serveur SMTP ou adresse mail dans le fichier `.env.local` qui devra être crée à la racine du projet en réalisant une copie du fichier `.env`.
 
-3. Télécharger et installer les dépendances back-end du projet avec Composer :
+3. Téléchargez et installez les dépendances back-end du projet avec Composer :
 ```
     composer install
 ```
-4. Télécharger et installer les dépendances front-end du projet avec Npm :
+4. Téléchargez et installez les dépendances front-end du projet avec Npm :
 ```
     npm install
 ```
-5. Créer un build via Webpack Encore à l'aide de la commande :
+5. Créer un build d'assets (grâce à Webpack Encore) avec Npm :
 ```
     npm run build
 ```
