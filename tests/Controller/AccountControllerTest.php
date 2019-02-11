@@ -14,22 +14,4 @@ class AccountControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
-
-    public function testpasswordUpdate()
-    {
-        $client = static::createClient();
-
-        $client->request('GET', '/account/password-update');
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-    }
-
-    public function testprofile()
-    {
-        $client = static::createClient();
-
-        $client->request('GET', '/account/profile');
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-    }
 }
